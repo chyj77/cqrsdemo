@@ -41,17 +41,15 @@ public class OrderUpdatingEventHandler {
             orderItem.setOrderitemId(UUID.randomUUID().toString());
         }
         orderRepository.save(order);
-        commandGateway.send(new CreateAccountCommand(identifierFactory.generateIdentifier(),order));
     }
 
     @EventHandler
     void on(OrderUpdateEvent event) {
-        Order order = event.getOrder();
-        List<OrderItem> orderItemSet = order.getOrderItemSet();
-        for (OrderItem orderItem:orderItemSet){
-            orderItem.setOrder(order);
-        }
+        Integer status = event.getStatus();
+        Order order = orderRepository.findOneByOrderId(event.getId());
+        order.setStatus(status);
         orderRepository.save(order);
+        commandGateway.send(new CreateAccountCommand(identifierFactory.generateIdentifier(),order));
     }
 /*
     @EventHandler

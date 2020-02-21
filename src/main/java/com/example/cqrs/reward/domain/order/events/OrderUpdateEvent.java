@@ -12,5 +12,5 @@ public class OrderUpdateEvent implements OrderEvent {
 	@AggregateIdentifier
 	private final String id;
 
-	private final Order order;
+	private final Integer status;
 }

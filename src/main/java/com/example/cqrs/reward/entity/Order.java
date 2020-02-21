@@ -38,7 +38,7 @@ public class Order implements Serializable {
     private String name;
 
     @Column
-    private String OrderId;
+    private String orderId;
 
     /**
      * user_id

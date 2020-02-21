@@ -55,7 +55,7 @@ public class OrderDomain {
     }
     @CommandHandler
     void on(UpdateOrderCommand command) {
-        apply(new OrderUpdateEvent(command.getId(),command.getOrder()));
+        apply(new OrderUpdateEvent(command.getId(),command.getStatus()));
     }
     @EventSourcingHandler
     void on(OrderUpdateEvent event) {

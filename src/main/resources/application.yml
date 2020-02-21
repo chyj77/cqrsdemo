@@ -30,7 +30,7 @@ spring:
         format_sql: false
         naming:
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    show-sql: true
+    show-sql: false
 axon:
   serializer:
     general: jackson

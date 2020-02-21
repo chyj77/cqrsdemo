@@ -11,10 +11,7 @@ import org.axonframework.commandhandling.CommandResultMessage;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.common.IdentifierFactory;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -40,9 +37,9 @@ public class OrderController {
         return "OK";
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String updateOrder( @RequestBody  Order order) {
-        commandGateway.send(new UpdateOrderCommand(order.getOrderId(),order));
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    public String updateOrder(@RequestParam String orderId,@RequestParam int status) {
+        commandGateway.send(new UpdateOrderCommand(orderId,status));
         return "OK";
     }
 

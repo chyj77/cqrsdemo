@@ -16,6 +16,6 @@ public class UpdateOrderCommand {
 	private final String id;
 
 	@NotNull
-	private final Order order;
+	private final Integer status;
 
 }
