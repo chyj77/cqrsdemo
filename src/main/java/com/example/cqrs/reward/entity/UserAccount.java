@@ -42,12 +42,6 @@ public class UserAccount implements Serializable {
     @Column
     private Integer level;
 
-    /**
-     * parent_id
-     */
-
-    @Column
-    private Integer parentId;
 
     @Column
     private BigDecimal balance;

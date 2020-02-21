@@ -2,7 +2,7 @@ package com.example.cqrs.reward.domain.order.commands;
 
 import com.example.cqrs.reward.entity.Order;
 import lombok.Value;
-import org.axonframework.modelling.command.AggregateIdentifier;
+import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import javax.validation.constraints.NotNull;
 
@@ -10,9 +10,9 @@ import javax.validation.constraints.NotNull;
  * @author albert
  */
 @Value
-public class CreateOrderCommand {
+public class UpdateOrderCommand {
 
-	@AggregateIdentifier
+	@TargetAggregateIdentifier
 	private final String id;
 
 	@NotNull

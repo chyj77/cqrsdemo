@@ -1,17 +1,12 @@
 package com.example.cqrs.reward.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -19,11 +14,12 @@ import java.util.Set;
  *
  * @author  2020-02-18
  */
-@Entity(name = "order")
+@Entity(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = { "id" })
 @Data
+@ToString
 public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,6 +36,9 @@ public class Order implements Serializable {
      */
     @Column
     private String name;
+
+    @Column
+    private String OrderId;
 
     /**
      * user_id
@@ -65,6 +64,7 @@ public class Order implements Serializable {
     @Column
     private Integer status;
 
-    @OneToMany(targetEntity=OrderItem.class,mappedBy = "order")
-    private Set<OrderItem> orderItemSet =new HashSet<>();
+    @OneToMany(targetEntity=OrderItem.class,mappedBy = "order",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<OrderItem> orderItemSet =new ArrayList<>();
 }

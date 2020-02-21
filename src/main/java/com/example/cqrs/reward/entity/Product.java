@@ -30,7 +30,8 @@ public class Product implements Serializable {
 
     @Column
     private Integer id;
-
+    @Column
+    private String productId;
     /**
      * name
      */

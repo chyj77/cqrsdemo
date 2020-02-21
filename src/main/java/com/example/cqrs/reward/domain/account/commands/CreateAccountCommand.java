@@ -1,4 +1,4 @@
-package com.example.cqrs.reward.domain.order.commands;
+package com.example.cqrs.reward.domain.account.commands;
 
 import com.example.cqrs.reward.entity.Order;
 import lombok.Value;
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  * @author albert
  */
 @Value
-public class CreateOrderCommand {
+public class CreateAccountCommand {
 
 	@AggregateIdentifier
 	private final String id;

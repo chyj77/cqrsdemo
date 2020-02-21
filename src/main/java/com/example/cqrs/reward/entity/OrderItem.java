@@ -1,9 +1,7 @@
 package com.example.cqrs.reward.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = { "id" })
+@ToString
 public class OrderItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,13 +24,13 @@ public class OrderItem implements Serializable {
      */
     private Integer id;
 
-
-
     /**
      * product_id
      */
     @Column
-    private Integer productId;
+    private String productId;
+    @Column
+    private String orderitemId;
 
     /**
      * product_name
@@ -63,6 +62,8 @@ public class OrderItem implements Serializable {
     @Column(name = "vip2_commission")
     private BigDecimal vip2Commission;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false,cascade = CascadeType.MERGE)
+    @JoinColumn(name="order_id",referencedColumnName="orderId")
+    @JsonBackReference
     private Order order;
 }

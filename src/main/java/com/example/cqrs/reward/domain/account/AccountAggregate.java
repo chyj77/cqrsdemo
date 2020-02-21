@@ -1,6 +1,9 @@
-package com.example.cqrs.reward.domain.order;
+package com.example.cqrs.reward.domain.account;
 
 import com.example.cqrs.reward.domain.account.commands.CreateAccountCommand;
+import com.example.cqrs.reward.domain.account.commands.UpdateAccountCommand;
+import com.example.cqrs.reward.domain.account.events.AccountCreatedEvent;
+import com.example.cqrs.reward.domain.account.events.AccountUpdateEvent;
 import com.example.cqrs.reward.domain.order.commands.CreateOrderCommand;
 import com.example.cqrs.reward.domain.order.commands.UpdateOrderCommand;
 import com.example.cqrs.reward.domain.order.events.OrderCreatedEvent;
@@ -9,14 +12,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
-import org.axonframework.modelling.command.ApplyMore;
 import org.axonframework.spring.stereotype.Aggregate;
-
-import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
 
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
@@ -24,18 +22,15 @@ import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 @Data
 @NoArgsConstructor
 @Slf4j
-public class OrderDomain {
+public class AccountAggregate {
 
     /**
      * The constant serialVersionUID
      */
-    private static final long serialVersionUID = -5977984483620451637L;
+    private static final long serialVersionUID = -5977984483620459637L;
 
     @AggregateIdentifier
     private String id;
-
-    @NotNull
-    private int status;
 
     /**
      * Creates a new Task.
@@ -43,22 +38,22 @@ public class OrderDomain {
      * @param command create Task
      */
     @CommandHandler
-    public OrderDomain(CreateOrderCommand command) {
-        log.info("CommandHandler CreateOrderCommand ");
-        apply(new OrderCreatedEvent(command.getId(),command.getOrder()));
+    public AccountAggregate(CreateAccountCommand command) {
+        log.info("CommandHandler CreateAccountCommand ");
+        apply(new AccountCreatedEvent(command.getId(),command.getOrder()));
     }
 
     @EventSourcingHandler
-    void on(OrderCreatedEvent event) {
-        log.info("EventSourcingHandler OrderCreatedEvent ");
+    void on(AccountCreatedEvent event) {
+        log.info("EventSourcingHandler AccountCreatedEvent ");
         this.id = event.getId();
     }
     @CommandHandler
-    void on(UpdateOrderCommand command) {
-        apply(new OrderUpdateEvent(command.getId(),command.getOrder()));
+    void on(UpdateAccountCommand command) {
+        apply(new AccountUpdateEvent(command.getId(),command.getOrder()));
     }
     @EventSourcingHandler
-    void on(OrderUpdateEvent event) {
+    void on(AccountUpdateEvent event) {
         this.id = event.getId();
     }
 }

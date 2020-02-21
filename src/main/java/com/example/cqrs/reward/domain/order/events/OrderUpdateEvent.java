@@ -1,21 +1,16 @@
-package com.example.cqrs.reward.domain.order.commands;
+package com.example.cqrs.reward.domain.order.events;
 
 import com.example.cqrs.reward.entity.Order;
 import lombok.Value;
 import org.axonframework.modelling.command.AggregateIdentifier;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * @author albert
  */
 @Value
-public class CreateOrderCommand {
-
+public class OrderUpdateEvent implements OrderEvent {
 	@AggregateIdentifier
 	private final String id;
 
-	@NotNull
 	private final Order order;
-
 }

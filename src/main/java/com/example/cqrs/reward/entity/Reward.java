@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = { "id" })
+@EqualsAndHashCode(of = {"id"})
 public class Reward implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,17 +29,23 @@ public class Reward implements Serializable {
      * order_id
      */
     @Column
-    private Integer orderId;
+    private String orderId;
+    @Column
+    private String orderitemId;
     @Column
     private Integer userId;
     @Column
+    private Integer buyuserId;
+    @Column
     private Integer level;
+    @Column
+    private Integer buyuserlevel;
 
     /**
      * product_id
      */
     @Column
-    private Integer productId;
+    private String productId;
 
     /**
      * product_name
@@ -72,4 +78,19 @@ public class Reward implements Serializable {
     private BigDecimal vip2Commission;
     @Column
     private BigDecimal commission;
+
+    public Reward(OrderItem orderItem, Integer buyuserId, Integer buyuserlevel, User parent) {
+        this.vip1Commission = orderItem.getVip1Commission();
+        this.vip2Commission = orderItem.getVip2Commission();
+        this.orderId = orderItem.getOrder().getOrderId();
+        this.buyuserId = buyuserId;
+        this.buyuserlevel = buyuserlevel;
+        this.userId = parent.getId();
+        this.level = parent.getLevel();
+        this.price = orderItem.getPrice();
+        this.productId = orderItem.getProductId();
+        this.stock = orderItem.getStock();
+        this.productName = orderItem.getProductName();
+        this.orderitemId = orderItem.getOrderitemId();
+    }
 }

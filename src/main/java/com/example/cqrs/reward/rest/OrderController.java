@@ -1,34 +1,49 @@
 package com.example.cqrs.reward.rest;
 
 import com.example.cqrs.reward.domain.order.commands.CreateOrderCommand;
+import com.example.cqrs.reward.domain.order.commands.UpdateOrderCommand;
 import com.example.cqrs.reward.entity.Order;
-import com.example.cqrs.reward.query.order.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.axonframework.commandhandling.CommandCallback;
+import org.axonframework.commandhandling.CommandMessage;
+import org.axonframework.commandhandling.CommandResultMessage;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.common.IdentifierFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @Log4j2
 @RequestMapping(value = "/order")
-@RequiredArgsConstructor
 public class OrderController {
     private final IdentifierFactory identifierFactory = IdentifierFactory.getInstance();
 
-    private final OrderRepository orderRepository;
+    @Resource
+    private  CommandGateway commandGateway;
 
-    private final SimpMessageSendingOperations messagingTemplate;
-
-    private final CommandGateway commandGateway;
-
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void createOrder( @RequestBody @Valid Order order) {
-        commandGateway.send(new CreateOrderCommand(order));
+    @RequestMapping(value = "/create", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String createOrder( @RequestBody  Order order) {
+        String orderId = identifierFactory.generateIdentifier();
+        order.setOrderId(orderId);
+        order.setCreateTime(new Date());
+        commandGateway.send(new CreateOrderCommand(orderId,order));
+        log.info("true done");
+        return "OK";
     }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updateOrder( @RequestBody  Order order) {
+        commandGateway.send(new UpdateOrderCommand(order.getOrderId(),order));
+        return "OK";
+    }
+
 }
