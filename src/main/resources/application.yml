@@ -8,9 +8,9 @@ spring:
     #    type: com.zaxxer.hikari.HikariDataSource
     #使用默认值参考: HikariConfig类或github上的HikariCP https://github.com/brettwooldridge/HikariCP
     #maximum-pool-size参考: https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing
-    url: jdbc:mysql://123.206.87.88:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8 &allowMultiQueries=true
+    url: jdbc:mysql://0.0.0.1:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8 &allowMultiQueries=true
     username: root
-    password: keke2012
+    password: ********
     driverClassName: com.mysql.cj.jdbc.Driver
     sql-script-encoding: UTF-8
     hikari:
